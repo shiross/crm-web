@@ -1,0 +1,14 @@
+{% module Template('common/views/header.html', user=user) %}
+<div class="header" xmlns:height="http://www.w3.org/1999/xhtml">
+    <h2>
+        {% if user is not None %}
+        Bienvenido de nuevo
+        {% end %}
+    </h2>
+</div>
+<div class="row">
+    <div class="col-md-12" align="center" >
+        <img src="resources/images/ic_launcher.png"/>
+    </div>
+</div>
+{% module Template('common/views/footer.html',user=user) %}

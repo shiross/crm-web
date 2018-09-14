@@ -1,0 +1,145 @@
+<style>
+    .accion{ cursor:pointer }
+</style>
+<script src="resources/js/functions.js"></script>
+
+<script>
+    main_route = '/role'
+
+    function default_values() {
+        page_nr = 1
+        max_entries = 10
+        like_search = ""
+        order_by = ""
+        ascendant = true
+    }
+    default_values()
+</script>
+
+{% if 'role_insert' in privileges or 'role_update' in privileges %}
+{% include role_form.html %}
+{% end %}
+
+<div class="header"><h2>Roles</h2></div>
+<div class="body">
+    <div class="row clearfix">
+        <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+        {% if 'role_insert' in privileges %}
+            <button id="new" type="button" class="btn bg-indigo waves-effect">
+            <i class="material-icons">add</i>
+            </button>
+        {% end %}
+        </div>
+        {% if 'role_query' in privileges %}
+        <div class="col-xs-2 col-sm-4 col-md-5 col-lg-5"></div>
+        <div class="col-xs-7 col-sm-6 col-md-5 col-lg-5 max-entries-col">
+            <div class="lower-520">
+                <label>Max.</label>
+                <div class="btn-group" role="group">
+                    <button id="max-entries-button" type="button" class="btn bg-indigo waves-effect dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        10 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+                        <li><a href="javascript:void(0);" class="page-drop waves-effect waves-block">10 </a></li>
+                        <li><a href="javascript:void(0);" class="page-drop waves-effect waves-block">25 </a></li>
+                        <li><a href="javascript:void(0);" class="page-drop waves-effect waves-block">50 </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="higher-520">
+                <label>Registros max.</label>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn waves-effect waves-light btn-lg page entries-light-blue">10</button>
+                    <button type="button" class="btn bg-indigo waves-effect waves-light btn-lg page">25</button>
+                    <button type="button" class="btn bg-indigo waves-effect waves-light btn-lg page">50</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="body table-responsive">
+            <table id="data_table" class="table">
+                <thead>
+                    <tr>
+                        <th class="order_by_th accion" data-name="id">ID </th>
+                        <th class="order_by_th accion" data-name="name">Name </th>
+                        <th class="order_by_th accion" data-name="description">Description </th>
+                        <th class="actions_header">Acciones </th>
+                    </tr>
+                </thead>
+                <tbody id="table_content">
+                    {% include 'role_table.html' %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-0 col-sm-2 col-md-1 col-lg-1"></div>
+        <div class="col-xs-12 col-sm-8 col-md-10 col-lg-10">
+            <div id="pages-container" class="input-group">
+                <ul id="pages_ul" class="pagination"></ul>
+            </div>
+        </div>
+        <div class="col-xs-0 col-sm-2 col-md-1 col-lg-1"></div>
+    </div>
+    <div id="empty_table" class="text-center">
+        <h2 class="text-red">Sin datos</h2>
+    </div>
+    <script>
+        remove_empty_columns()
+        $('.page-drop').click(function () {
+            $('#max-entries-button').html($(this).text()+'<span class="caret"></span>')
+            max_entries = parseInt($(this).text())
+            query(main_route)
+        })
+
+
+        $('.page').click(function () {
+            $('.entries-light-blue').toggleClass('entries-light-blue bg-indigo')
+            $(this).addClass('entries-light-blue')
+            $(this).removeClass('bg-indigo')
+            max_entries = parseInt($(this).text())
+            query(main_route)
+        })
+
+        $(".like_search_input").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                like_search = $(this).val()
+                query(main_route)
+            }
+        })
+
+        $('#like_search_button').click(function () {
+            like_search = $("#like_search_input").val()
+            query(main_route)
+        })
+
+        $('#redo_button').click(function () {
+            default_values()
+            query(main_route)
+        })
+
+        $('.order_by_th').click(function () {
+            $('.order_by_th').find('.fa').remove()
+            if(order_by == $(this).attr('data-name')){
+                ascendant = !ascendant
+            } else {
+                order_by = $(this).attr('data-name')
+                ascendant = true
+            }
+            if (ascendant){
+                $(this).append("<i class='fa fa-sort-asc' aria-hidden='true'></i>")
+            }else{
+                $(this).append("<i class='fa fa-sort-desc' aria-hidden='true'></i>")
+            }
+            query(main_route)
+        })
+        show_search()
+
+        //setInterval(function () { query(main_route) }, 7000)
+    </script>
+    {% else %}
+    <div class="col-xs-9 col-sm-10 col-md-10 col-lg-10"></div>
+    {% end %}
+
+</div>

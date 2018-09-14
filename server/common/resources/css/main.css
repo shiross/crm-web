@@ -1,0 +1,188 @@
+#left-bar .navbar-brand{
+    width: 50%;
+}
+
+#search-button {
+    display: inline-block;
+    padding: 12px 8px 0;
+    color: white;
+}
+
+#left-bar{
+    min-width: 285px;
+}
+
+#left-options {
+    float: right;
+}
+
+#left-options .more-options{
+    padding: 11px 8px 0;
+    display: inline-block;
+    margin-top: 0;
+}
+
+#right-bar{
+    float: left;
+    width: 50%;
+    margin-left: 15px;
+}
+
+#right-bar #search-image{
+    width: 25px;
+}
+
+#right-bar path{
+    fill: #fff;
+}
+
+#right-bar > div{
+    background-color: #1464bf;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+}
+
+#right-bar input{
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-family: "Roboto";
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.more-options{
+    float: right;
+    padding: 15px;
+    margin-top: 8px;
+}
+
+.more-options ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.more-options i{
+    color: white;
+}
+
+#content{
+    margin: 80px 0 0 300px;
+}
+
+@media screen and (max-width: 1170px) {
+    #content{
+        margin: 80px 0 0 0;
+    }
+
+    #content .container-fluid{
+        padding: 0;
+    }
+}
+
+#new{
+    max-width: 70px;
+}
+
+@media screen and (max-width: 511px) {
+    .higher-520{
+        display: none;
+    }
+    .max-entries-col{
+        text-align: right;
+    }
+}
+@media screen and (min-width: 512px) {
+    .lower-520{
+        display: none;
+    }
+
+}
+
+.dropdown-menu{
+    left: auto;
+    right: 0;
+}
+
+.entries-light-purple{
+    background-color: #8D6BC9;
+    color: white;
+}
+
+.entries-light-purple:hover{
+    background-color: #8D6BC9;
+    color: white;
+}
+
+.entries-light-purple:focus{
+    background-color: #8D6BC9;
+    color: white;
+}
+
+
+.light-purple{
+    background-color: #8D6BC9;
+}
+
+#pages-container {
+    text-align: center;
+}
+
+#pages-container li.active a{
+    background-color: #673AB7;
+}
+
+.form-group .form-line::after,
+.input-group .form-line::after{
+    border-bottom: 2px solid #673AB7;
+}
+
+.order_by_th{
+    cursor: pointer;
+}
+
+#data_table{
+    margin-left: 7px;
+}
+
+.alert-success,
+.alert-danger,
+.alert-warning,
+.alert-info{
+    text-align: center;
+}
+
+.alert-success{
+    background-color: #009688;
+}
+
+.alert-success .glyphicon,
+.alert-danger .glyphicon,
+.alert-warning .glyphicon,
+.alert-info .glyphicon{
+    float: right;
+}
+
+
+.tree-container{
+   list-style: none;
+   padding-left: 0px;
+}
+
+.tree-menu{
+   list-style: none;
+   padding-left: 30px;
+}
+
+.tree-container .checkbox{
+    display: inline-block;
+}
+
+.tree-container i{
+    padding: 0 10px;
+}

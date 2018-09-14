@@ -1,0 +1,184 @@
+<div id="form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 id="user_tittle" class="modal-title">Role</h3>
+                <h4 id="user_enable" class=""></h4>
+            </div>
+            <div class="modal-body">
+                <div id="user_form_body" class="box-body">
+                    <div id="id_div" class="form-group form-float">
+                        <div class="form-line">
+                            <input id="id" type="text" class="form-control" disabled="disabled">
+                            <label class="form-label">Role Id</label>
+                        </div>
+                    </div>
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <input id="name" type="text" class="form-control name">
+                            <label class="form-label">Name</label>
+                        </div>
+                    </div>
+                    <div class="form-group form-float">
+                        <div class="form-line">
+                            <input id="description" type="text" class="form-control text">
+                            <label class="form-label">Description</label>
+                        </div>
+                    </div>
+                    <label>Permisos</label>
+                    <p>Para Adicionar, Actualizar o Dar de Baja se necesita obligatoriamente el privilegio Consultar.</p>
+                    <ul class="tree-container">
+                        {% for mods in modules %}
+                            {% set mods = [mods] %}
+                            {% set parents_ids = [] %}
+                            {% while 0 < len(mods) %}
+                                {% set module = mods.pop() %}
+                                {% while len(parents_ids) > 0 and parents_ids[-1] != module.parent_id %}
+                                    </ul>
+                                </li>
+                                {% set del(parents_ids[-1]) %}
+                                {% end %}
+
+                                <li>
+                                    <i class="material-icons">{{module.icon}}</i>
+                                    <input id="{{module.name}}" type="checkbox" class="module chk-col-deep-purple" data-id="{{module.id}}">
+                                    <label for="{{module.name}}" data-id="{{module.id}}" >{{module.title}}</label>
+                                {% if len(module.children) <= 0 %}
+                                    </li>
+                                {% else %}
+                                    {% set mods.extend(module.children[::-1]) %}
+                                    {% set parents_ids.append(module.id) %}
+                                        <ul class="tree-menu">
+                                {% end %}
+                            {% end %}
+                            {% for i in parents_ids %}
+                                </ul>
+                            </li>
+                            {% end %}
+                        {% end %}
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if 'role_insert' in privileges %}
+                <button id="insert" type="button" class="btn bg-indigo waves-effect" data-dismiss="modal">Guardar<i class="material-icons">save</i></button>
+                {% end %}
+                {% if 'role_update' in privileges %}
+                <button id="update" type="button" class="btn bg-indigo waves-effect" data-dismiss="modal">Guardar<i class="material-icons">save</i></button>
+                {% end %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="resources/js/validations.js"></script>
+<script>
+    attach_validators()
+    function analizar(parent) {
+        children = $(parent).next().next().find('.module:checked')
+        $(parent).prop('checked', (children.length > 0))
+        grand_parent = $(parent).parent().closest('.tree-menu').prev().prev()
+        if (grand_parent.length > 0){
+            analizar(grand_parent)
+        }
+    }
+
+    $('.module').click(function () {
+        aux = $(this).attr('id')
+        if((aux.indexOf('insert')!==-1 || aux.indexOf('update')!==-1 || aux.indexOf('delete')!==1) && $(this).is(':checked')){
+            aux1 = aux.replace('insert', 'query')
+            aux1 = aux1.replace('update', 'query')
+            aux1 = aux1.replace('delete', 'query')
+            $('#'+aux1).prop('checked', true)
+        }
+
+        if(aux.indexOf('query')!==-1){
+            aux1 = aux.replace('query', 'insert')
+            $('#'+aux1).prop('checked', false)
+            aux1 = aux.replace('query', 'update')
+            $('#'+aux1).prop('checked', false)
+            aux1 = aux.replace('query', 'delete')
+            $('#'+aux1).prop('checked', false)
+        }
+
+        $(this).next().next().find('.module').prop('checked', $(this).prop('checked'))
+        analizar($(this).parent().closest('.tree-menu').prev().prev())
+    })
+
+    function get_cb_ids(selection) {
+        checkboxs_ids = []
+        $(selection+':checked').each(function () {
+            checkboxs_ids.push(parseInt($(this).attr('data-id')))
+        })
+        return checkboxs_ids
+    }
+
+    {% if 'role_insert' in privileges %}
+    $('#new').click(function () {
+        $('#id').val('')
+        $('#name').val('')
+        $('#description').val('')
+        $('.module').prop('checked', false)
+
+        clean_form()
+        verif_inputs()
+        $('#id_div').hide()
+        $('#insert').show()
+        $('#update').hide()
+        $('#form').modal('show')
+    })
+
+    $('#insert').click(function () {
+        if(!validate_fields(['name', 'description'])){
+            return
+        }
+        objeto = JSON.stringify({
+            'name': $('#name').val(),
+            'description': $('#description').val(),
+            'modules': get_cb_ids('.module')
+        })
+        ajax_call("{{privileges['role_insert'].route}}", {object: objeto}, null, function () {query(main_route)})
+        $('#form').modal('hide')
+    })
+    {% end %}
+    {% if 'role_update' in privileges %}
+    function attach_edit() {
+        $('.edit').click(function () {
+            self = JSON.parse($(this).attr('data-json'))
+            $('#id').val(self.id)
+            $('#name').val(self.name)
+            $('#description').val(self.description)
+
+            $('.module').prop('checked', false)
+            for (i in self.modules){
+                $('.module[data-id="'+self.modules[i].id+'"]').prop('checked', true)
+            }
+
+            clean_form()
+            verif_inputs()
+            $('#id_div').show()
+            $('#insert').hide()
+            $('#update').show()
+            $('#form').modal('show')
+        })
+    }
+
+    $('#update').click(function () {
+        if(!validate_fields(['name', 'description'])){
+            return
+        }
+        objeto = JSON.stringify({
+            'id': parseInt($('#id').val()),
+            'name': $('#name').val(),
+            'description': $('#description').val(),
+            'modules': get_cb_ids('.module')
+        })
+        ajax_call("{{privileges['role_update'].route}}", {object: objeto}, null, function () {query(main_route)})
+        $('#form').modal('hide')
+    })
+    {% end %}
+
+    reload_form()
+
+</script>

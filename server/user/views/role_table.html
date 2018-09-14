@@ -1,0 +1,67 @@
+
+{% for role in objects %}
+<tr>
+    <td>{{ role.id }}</td>
+    <td>{{ role.name }}</td>
+    <td>{{ role.description }}</td>
+    <td>
+        {% if 'role_update' in privileges %}
+        <button id="edit" data-json="{{role.get_json()}}" type="button" class="btn bg-indigo waves-effect waves-light edit"><i class="material-icons">create</i></button>
+        {% end %}
+    </td>
+</tr>
+{% end %}
+
+<script>
+    max_pages = {{max_pages}}
+    entries_count = {{objects.count()}}
+    if (entries_count > 0){
+        $('#data_table').show()
+        $('#empty_table').hide()
+        if(page_nr > max_pages) {
+            page_nr = max_pages
+        }
+        if(max_pages > 1){
+            pages_li = ''
+            pages_li += "<li class='paginate_button'><a class='paginate waves-effect'"
+            if (page_nr - 1 > 0){
+                pages_li += " data-nr='" + (parseInt(page_nr) - 1) +"'"
+            }
+            pages_li += "><i class='material-icons'>chevron_left</i></a></li>"
+            for (i=1; i<=max_pages; i++){
+                if (page_nr == i){
+                    pages_li+= "<li class='paginate_button active'><a>"+i+"</a></li>"
+                } else {
+                    pages_li+= "<li class='paginate_button'><a class='paginate waves-effect' data-nr='"+i+"'>"+i+"</a></li>"
+                }
+            }
+            pages_li += "<li class='paginate_button'><a class='paginate waves-effect'"
+            if (page_nr != max_pages){
+                pages_li += " data-nr='" + (parseInt(page_nr) + 1) +"'"
+            }
+            pages_li += "><i class='material-icons'>chevron_right</i></a></li>"
+
+            $('#pages_ul').html(pages_li)
+
+            $('.paginate').click(function () {
+                if ($(this).attr('data-nr')) {
+                    page_nr = parseInt($(this).attr('data-nr'))
+                    query(main_route)
+                }
+            })
+        } else {
+            $('#pages_ul').empty()
+        }
+
+        {% if 'role_update' in privileges %}
+        attach_edit()
+        {% end %}
+    } else {
+        $('#data_table').hide()
+        $('#empty_table').show()
+        $('#left_page').removeAttr('data-nr')
+        $('#right_page').removeAttr('data-nr')
+        $('#pages_ul').empty()
+    }
+
+</script>

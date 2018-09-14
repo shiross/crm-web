@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Login | Cloudbit - COMENSALES</title>
+    <link rel="icon" href="resources/icono.ico" type="image/x-icon">
+    <link href="resources/css/iconfont/material-icons.css" rel="stylesheet">
+    <link href="resources/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="resources/plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="resources/plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="resources/css/style.css" rel="stylesheet">
+</head>
+    <style>
+        .login-page{ background-color: #536DFE }
+        .input-group .form-line::after{
+            border-bottom: 2px solid #536DFE;
+        }
+    </style>
+
+<body class="login-page">
+    <div class="login-box">
+        <div class="logo">
+            <a href="javascript:void(0);">Herracruz</a>
+            <small>Sistema Consultas - Cloudbit</small>
+        </div>
+        <div class="card">
+            <div class="body">
+                <form id="sign_in" method="POST">
+                    <div class="msg">Iniciar sesión</div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button class="btn bg-red btn-block waves-effect" type="submit">Ingresar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="resources/plugins/jquery/jquery.min.js"></script>
+    <script src="resources/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="resources/plugins/node-waves/waves.js"></script>
+    <script src="resources/plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="resources/js/admin.js"></script>
+</body>
+<script>
+    $(function () {
+        $('#sign_in').validate({
+            highlight: function (input) {
+                console.log(input);
+                $(input).parents('.form-line').addClass('error');
+            },
+            unhighlight: function (input) {
+                $(input).parents('.form-line').removeClass('error');
+            },
+            errorPlacement: function (error, element) {
+                $(element).parents('.input-group').append(error);
+            }
+        });
+    });
+</script>
+
+</html>

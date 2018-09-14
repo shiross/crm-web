@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>CLOUDBIT</title>
+
+    <link rel="icon" href="resources/icono.ico" type="image/x-icon">
+    <link href="resources/css/iconfont/material-icons.css" rel="stylesheet">
+    <link href="resources/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="resources/plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="resources/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="resources/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
+    <link href="resources/plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="resources/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="resources/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="resources/materializeicons/css/materialdesignicons.min.css">
+    <link href="resources/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <!--link href="resources/plugins/full-calendar/css/fullcalendar.css" rel="stylesheet>
+    <link href="resources/plugins/full-calendar/css/fullcalendar.print.css" rel="stylesheet" media='print'-->
+    <link rel="stylesheet" href="resources/plugins/autocomplete/css/flexselect.css" type="text/css" media="screen" />
+    <link href="resources/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
+    <link href="resources/css/themes/all-themes.css" rel="stylesheet" />
+    <link href="resources/css/main.css" rel="stylesheet" />
+
+</head>
+
+<body class="theme-blue">
+    <div class="search-bar">
+        <div class="search-icon"><i class="material-icons">search</i></div>
+        <input type="text" class="like_search_input" placeholder="START TYPING...">
+        <div class="close-search"><i class="material-icons">close</i></div>
+    </div>
+
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-deep-purple">
+                    <div class="circle-clipper left"><div class="circle"></div></div>
+                    <div class="circle-clipper right"><div class="circle"></div></div>
+                </div>
+            </div>
+            <p>Por favor espere...</p>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div id="left-bar" class="navbar-header">
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="/">Herracruz</a>
+                <div id="left-options">
+                    <!--<a id="search-button" href="javascript:void(0);" class="js-search search-group" data-close="true"><i class="material-icons">search</i></a>-->
+                    <div class="more-options">
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="/logout" class=" waves-effect waves-block">Cerrar Sesión</a></li>
+                                    <!--<li><a href="javascript:void(0);" class=" waves-effect waves-block">Perfil</a></li>-->
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--<div id="right-bar" class="search-group">-->
+                <!--<div>-->
+                    <!--<div id="search-image">-->
+                        <!--<svg viewBox="0 0 24 24" height="100%" width="100%">-->
+                            <!--<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>-->
+                        <!--</svg>-->
+                    <!--</div>-->
+                    <!--<input type="text" class="like_search_input">-->
+                <!--</div>-->
+            <!--</div>-->
+                <div id="right-options" class="more-options">
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="/logout" class=" waves-effect waves-block">Cerrar Sesión</a></li>
+                                <!--<li><a href="javascript:void(0);" class=" waves-effect waves-block">Perfil</a></li>-->
+                                <!--<li><a href="/resources/manual/manual.pdf" class=" waves-effect waves-block">Manual de Funciones</a></li>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    </nav>
+    <section>
+        <aside id="leftsidebar" class="sidebar">
+            <div class="menu">
+                <ul class="list">
+                    {% for mods in user.role.modules %}
+                        {% set mods = [mods] %}
+                        {% set parents_ids = [] %}
+                        {% while len(mods) > 0 %}
+                            {% set module = mods.pop() %}
+                            {% if not module.menu %}
+                                {% set continue %}
+                            {% end %}
+                            {% while len(parents_ids) > 0 and parents_ids[-1] != module.parent_id %}
+                                </ul>
+                            </li>
+                            {% set del(parents_ids[-1]) %}
+                            {% end %}
+
+                            {% if module.route %}
+                                {% set url = module.route %}
+                            {% else %}
+                                {% set url = '#' %}
+                            {% end %}
+
+                            {% if len(module.children) <= 0 or url != '#' %}
+                                <li><a href="{{url}}" class="partial_render"><i class="material-icons">{{module.icon}}</i><span>{{module.title}}</span></a></li>
+                            {% else %}
+                                {% set mods.extend(module.children[::-1]) %}
+                                {% set parents_ids.append(module.id) %}
+                                <li><a href="{{url}}" class="partial_render menu-toggle"><i class="material-icons">{{module.icon}}</i><span>{{module.title}}</span></a>
+                                    <ul class="ml-menu">
+                            {% end %}
+                        {% end %}
+                        {% if len(parents_ids) > 0  %}
+                            </ul>
+                        </li>
+                        {% end %}
+                    {% end %}
+                </ul>
+            </div>
+        </aside>
+    </section>
+
+    <section id="content" class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="card" id="render_content">
