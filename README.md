@@ -1,2 +1,2 @@
 # crm-web
-Proyecto movil CRM
+Proyecto web CRM
