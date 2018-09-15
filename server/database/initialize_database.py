@@ -6,6 +6,7 @@ from configparser import ConfigParser
 
 from ..user.scripts import insertions as user_insertions
 from ..inventario.scripts import insertions as inventario_insertions
+from ..customer.scripts import insertions as customer_insertions
 from server.database import connection
 from .models import Base
 
@@ -14,7 +15,9 @@ def main():
     reload_db()
     user_insertions()
     inventario_insertions()
+    customer_insertions()
     print('Database created/updated correctly!')
+
 
 
 def reload_db():

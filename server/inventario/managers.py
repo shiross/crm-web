@@ -425,3 +425,6 @@ class DetailManager(SuperManager):
         #         if 'UNIQUE constraint failed: rrhh_empleado.codigo' in str(e):
         #             return {'message': 'codigo de empleado duplicado', 'success': False}
         #         return {'message': str(e), 'success': False}
+
+
+

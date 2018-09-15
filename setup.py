@@ -1,7 +1,7 @@
 from distutils.core import setup
 from setuptools import find_packages
 
-requires = ['tornado', 'sqlalchemy', 'configparser', 'schedule']
+requires = ['tornado', 'sqlalchemy', 'configparser', 'schedule','openpyxl','pymysql']
 
 setup(
     name='Base Project',

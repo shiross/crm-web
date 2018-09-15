@@ -2,7 +2,6 @@ import hashlib
 
 from server.common.managers import SuperManager, Error
 from .models import User, Role, Module, Access
-from openpyxl import load_workbook, Workbook
 from sqlalchemy.exc import IntegrityError
 
 
